@@ -1,70 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>NextGen Gold Bot 🚀</title>
-<style>
-    body {
-        background: #0d0d0d;
-        color: white;
-        font-family: Arial;
-        text-align: center;
-        padding: 20px;
-    }
-    .card {
-        background: #1a1a1a;
-        padding: 20px;
-        margin: 20px;
-        border-radius: 10px;
-    }
-    .buy { color: lime; }
-    .sell { color: red; }
-</style>
-</head>
-
-<body>
-
-<h1>NextGen Gold Bot 🚀</h1>
-
-<div class="card">
-    <h2>📊 Market Status</h2>
-    <p>Pair: XAU/USD</p>
-    <p>Trend: <span id="trend">Loading...</span></p>
-</div>
-
-<div class="card">
-    <h2>📡 Signal</h2>
-    <p>Action: <span id="action"></span></p>
-    <p>Entry: <span id="entry"></span></p>
-    <p>Take Profit: <span id="tp"></span></p>
-    <p>Stop Loss: <span id="sl"></span></p>
-</div>
-
 <script>
-function generateSignal() {
-    const price = Math.floor(Math.random() * (2350 - 2300) + 2300);
+async function generateSignal() {
+    try {
+        const res = await fetch("https://api.gold-api.com/price/XAUUSD");
+        const data = await res.json();
 
-    const trend = price > 2325 ? "Bullish" : "Bearish";
-    const action = trend === "Bullish" ? "BUY" : "SELL";
+        const price = Math.round(data.price);
 
-    const tp = action === "BUY" ? price + 30 : price - 30;
-    const sl = action === "BUY" ? price - 20 : price + 20;
+        const trend = price > 2325 ? "Bullish" : "Bearish";
+        const action = trend === "Bullish" ? "BUY" : "SELL";
 
-    document.getElementById("trend").innerText = trend;
+        const tp = action === "BUY" ? price + 30 : price - 30;
+        const sl = action === "BUY" ? price - 20 : price + 20;
 
-    const actionEl = document.getElementById("action");
-    actionEl.innerText = action;
-    actionEl.className = action === "BUY" ? "buy" : "sell";
+        document.getElementById("trend").innerText = trend;
 
-    document.getElementById("entry").innerText = price;
-    document.getElementById("tp").innerText = tp;
-    document.getElementById("sl").innerText = sl;
+        const actionEl = document.getElementById("action");
+        actionEl.innerText = action;
+        actionEl.className = action === "BUY" ? "buy" : "sell";
+
+        document.getElementById("entry").innerText = price;
+        document.getElementById("tp").innerText = tp;
+        document.getElementById("sl").innerText = sl;
+
+    } catch (error) {
+        console.log("Error fetching price:", error);
+    }
 }
 
-// run every 5 seconds
-setInterval(generateSignal, 5000);
+// update every 10 seconds
+setInterval(generateSignal, 10000);
 generateSignal();
 </script>
-
-</body>
-</html>
