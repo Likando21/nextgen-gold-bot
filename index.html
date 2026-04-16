@@ -2,6 +2,11 @@
 async function generateSignal() {
     try {
         const res = await fetch("https://api.gold-api.com/price/XAUUSD");
+
+        if (!res.ok) {
+            throw new Error("API failed");
+        }
+
         const data = await res.json();
 
         const price = Math.round(data.price);
@@ -23,7 +28,15 @@ async function generateSignal() {
         document.getElementById("sl").innerText = sl;
 
     } catch (error) {
-        console.log("Error fetching price:", error);
+        console.log("Error:", error);
+
+        // fallback (so page doesn't go blank)
+        document.getElementById("trend").innerText = "Offline";
+
+        document.getElementById("action").innerText = "WAIT";
+        document.getElementById("entry").innerText = "--";
+        document.getElementById("tp").innerText = "--";
+        document.getElementById("sl").innerText = "--";
     }
 }
 
