@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>NextGen Gold Bot</title>
-  <style>
+<meta charset="UTF-8">
+<title>NextGen Gold Bot 🚀</title>
+<style>
     body {
-      background: #0b0b0b;
-      color: white;
-      font-family: Arial;
-      padding: 20px;
+        background: #0d0d0d;
+        color: white;
+        font-family: Arial;
+        text-align: center;
+        padding: 20px;
     }
     .card {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
+        background: #1a1a1a;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 10px;
     }
-    .green { color: #00ff88; }
-    .red { color: #ff4d4d; }
-  </style>
+    .buy { color: lime; }
+    .sell { color: red; }
+</style>
 </head>
 
 <body>
@@ -25,45 +27,43 @@
 <h1>NextGen Gold Bot 🚀</h1>
 
 <div class="card">
-  <h2>📊 Market Status</h2>
-  <p>Pair: XAU/USD</p>
-  <p>Trend: <span id="trend"></span></p>
+    <h2>📊 Market Status</h2>
+    <p>Pair: XAU/USD</p>
+    <p>Trend: <span id="trend">Loading...</span></p>
 </div>
 
 <div class="card">
-  <h2>📡 Signal</h2>
-  <p>Action: <span id="action"></span></p>
-  <p>Entry: <span id="entry"></span></p>
-  <p>Take Profit: <span id="tp"></span></p>
-  <p>Stop Loss: <span id="sl"></span></p>
+    <h2>📡 Signal</h2>
+    <p>Action: <span id="action"></span></p>
+    <p>Entry: <span id="entry"></span></p>
+    <p>Take Profit: <span id="tp"></span></p>
+    <p>Stop Loss: <span id="sl"></span></p>
 </div>
 
 <script>
-function updateBot() {
-  let price = 2320 + Math.floor(Math.random() * 20);
-  let isBullish = Math.random() > 0.5;
+function generateSignal() {
+    const price = Math.floor(Math.random() * (2350 - 2300) + 2300);
 
-  let trend = isBullish ? "Bullish" : "Bearish";
-  let action = isBullish ? "BUY" : "SELL";
+    const trend = price > 2325 ? "Bullish" : "Bearish";
+    const action = trend === "Bullish" ? "BUY" : "SELL";
 
-  document.getElementById("trend").innerHTML =
-    isBullish ? `<span class="green">${trend}</span>` :
-                `<span class="red">${trend}</span>`;
+    const tp = action === "BUY" ? price + 30 : price - 30;
+    const sl = action === "BUY" ? price - 20 : price + 20;
 
-  document.getElementById("action").innerHTML =
-    isBullish ? `<span class="green">${action}</span>` :
-                `<span class="red">${action}</span>`;
+    document.getElementById("trend").innerText = trend;
 
-  document.getElementById("entry").innerText = price;
-  document.getElementById("tp").innerText = isBullish ? price + 30 : price - 30;
-  document.getElementById("sl").innerText = isBullish ? price - 20 : price + 20;
+    const actionEl = document.getElementById("action");
+    actionEl.innerText = action;
+    actionEl.className = action === "BUY" ? "buy" : "sell";
+
+    document.getElementById("entry").innerText = price;
+    document.getElementById("tp").innerText = tp;
+    document.getElementById("sl").innerText = sl;
 }
 
-// update every 5 seconds
-setInterval(updateBot, 5000);
-
-// first load
-updateBot();
+// run every 5 seconds
+setInterval(generateSignal, 5000);
+generateSignal();
 </script>
 
 </body>
