@@ -1,18 +1,70 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NextGen Gold Bot</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head><body style="background:#0a0a0a; color:white; font-family:sans-serif; padding:20px;">  <h1 style="text-align:center; font-size:28px;">NextGen Gold Bot 🚀</h1>  <div style="margin-top:30px; padding:20px; background:#111; border-radius:10px;">
-    <h2>📊 Market Status</h2>
-    <p>Pair: XAU/USD</p>
-    <p>Trend: <span style="color:lime;">Bullish</span></p>
-  </div>  <div style="margin-top:20px; padding:20px; background:#111; border-radius:10px;">
-    <h2>📡 Signal</h2>
-    <p>Action: <b style="color:lime;">BUY</b></p>
-    <p>Entry: 2320</p>
-    <p>Take Profit: 2350</p>
-    <p>Stop Loss: 2300</p>
-  </div></body>
+  <style>
+    body {
+      background: #0b0b0b;
+      color: white;
+      font-family: Arial;
+      padding: 20px;
+    }
+    .card {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .green { color: #00ff88; }
+    .red { color: #ff4d4d; }
+  </style>
+</head>
+
+<body>
+
+<h1>NextGen Gold Bot 🚀</h1>
+
+<div class="card">
+  <h2>📊 Market Status</h2>
+  <p>Pair: XAU/USD</p>
+  <p>Trend: <span id="trend"></span></p>
+</div>
+
+<div class="card">
+  <h2>📡 Signal</h2>
+  <p>Action: <span id="action"></span></p>
+  <p>Entry: <span id="entry"></span></p>
+  <p>Take Profit: <span id="tp"></span></p>
+  <p>Stop Loss: <span id="sl"></span></p>
+</div>
+
+<script>
+function updateBot() {
+  let price = 2320 + Math.floor(Math.random() * 20);
+  let isBullish = Math.random() > 0.5;
+
+  let trend = isBullish ? "Bullish" : "Bearish";
+  let action = isBullish ? "BUY" : "SELL";
+
+  document.getElementById("trend").innerHTML =
+    isBullish ? `<span class="green">${trend}</span>` :
+                `<span class="red">${trend}</span>`;
+
+  document.getElementById("action").innerHTML =
+    isBullish ? `<span class="green">${action}</span>` :
+                `<span class="red">${action}</span>`;
+
+  document.getElementById("entry").innerText = price;
+  document.getElementById("tp").innerText = isBullish ? price + 30 : price - 30;
+  document.getElementById("sl").innerText = isBullish ? price - 20 : price + 20;
+}
+
+// update every 5 seconds
+setInterval(updateBot, 5000);
+
+// first load
+updateBot();
+</script>
+
+</body>
 </html>
